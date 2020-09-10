@@ -7,6 +7,8 @@
 
 ![](https://img.shields.io/badge/cool-useless-green.svg) [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R build
+status](https://github.com/coolbutuseless/snowcrash/workflows/R-CMD-check/badge.svg)](https://github.com/coolbutuseless/snowcrash/actions)
 <!-- badges: end -->
 
 `snowcrash` is a package for encoding arbitrary R objects as rasters,
@@ -139,7 +141,7 @@ decode_rasterGrob_to_robj(raster_grob)
     #>     structure(list(lengths = diff(c(0L, i)), values = x[i]), 
     #>         class = "rle")
     #> }
-    #> <bytecode: 0x7fb6375c73f0>
+    #> <bytecode: 0x7fc64d8cd350>
     #> <environment: namespace:base>
 
 ## Encoding a `ggplot2` Object as a PNG image

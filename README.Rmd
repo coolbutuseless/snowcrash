@@ -60,6 +60,7 @@ image_read("man/figures/logo.png")
 <!-- badges: start -->
 ![](https://img.shields.io/badge/cool-useless-green.svg)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R build status](https://github.com/coolbutuseless/snowcrash/workflows/R-CMD-check/badge.svg)](https://github.com/coolbutuseless/snowcrash/actions)
 <!-- badges: end -->
 
 `snowcrash` is a package for encoding arbitrary R objects as rasters, PNGs 
