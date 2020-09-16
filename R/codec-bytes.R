@@ -18,6 +18,8 @@ encode_robj_to_bytes <- function(robj) {
 
   if (requireNamespace('zstdlite', quietly = TRUE)) {
     bytes <- zstdlite::zstd_compress(bytes)
+  } else {
+    bytes <- memCompress(bytes, type = 'gzip')
   }
 
   bytes
@@ -50,7 +52,6 @@ decode_bytes_to_robj <- function(bytes) {
     }
     base::unserialize(zstdlite::zstd_decompress(bytes))
   } else {
-    # message("decode_bytes_to_robj(): No data in bytes. Returning NULL")
-    NULL
+    base::unserialize(memDecompress(bytes, type = 'gzip'))
   }
 }
