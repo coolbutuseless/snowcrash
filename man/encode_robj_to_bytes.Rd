@@ -16,3 +16,15 @@ Vector of raw bytes
 If \code{zstdlite} is installed, then the serialized representation is
 compressed using \code{zstd} compression.
 }
+\details{
+The representation is serialized with \code{serialize(..., xdr = FALSE)},
+so if the endian of the compression and decompression machines is not the
+same, you are likely to experience sadness.
+
+Setting \code{xdr = FALSE} for serialization has speed benefits - from the
+\code{serialize()} help page: "As almost all systems in current use are
+little-endian, xdr = FALSE can be used to avoid byte-shuffling at both ends
+when transferring data from one little-endian machine to another (or between
+processes on the same machine). Depending on the system, this can speed up
+serialization and unserialization by a factor of up to 3x"
+}

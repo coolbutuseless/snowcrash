@@ -1,3 +1,8 @@
+# snowcrash 0.1.2
+
+* When serializing with `base::serialize()` set `xdr = FALSE` for fast
+  performance
+
 # snowcrash 0.1.1
 
 * Use `base::memCompress()` if `zstdlite` is not installed.
