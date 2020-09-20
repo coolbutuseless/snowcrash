@@ -3,9 +3,6 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Encode an R object into a vector of raw bytes
 #'
-#' If \code{zstdlite} is installed, then the serialized representation is
-#' compressed using \code{zstd} compression.
-#'
 #' The representation is serialized with \code{serialize(..., xdr = FALSE)},
 #' so if the endian of the compression and decompression machines is not the
 #' same, you are likely to experience sadness.
@@ -24,16 +21,7 @@
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 encode_robj_to_bytes <- function(robj) {
-
-  bytes <- base::serialize(robj, NULL, xdr = FALSE)
-
-  if (requireNamespace('zstdlite', quietly = TRUE)) {
-    bytes <- zstdlite::zstd_compress(bytes)
-  } else {
-    bytes <- memCompress(bytes, type = 'gzip')
-  }
-
-  bytes
+  bytes <- base::memCompress(base::serialize(robj, NULL, xdr = FALSE), type = 'gzip')
 }
 
 
@@ -52,17 +40,5 @@ encode_robj_to_bytes <- function(robj) {
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 decode_bytes_to_robj <- function(bytes) {
-
-  if (identical(bytes[1:3], as.raw(c(0x58, 0x0a, 0x00)))) {
-    # message("decode_bytes_to_robj(): serialized bytes")
-    base::unserialize(bytes)
-  } else if (identical(bytes[1:3], charToRaw('ZST'))) {
-    # message("decode_bytes_to_robj(): ZST compressed bytes")
-    if (!requireNamespace('zstdlite', quietly = TRUE)) {
-      stop("decode_bytes_to_robj(): {zstdlite} required but not installed")
-    }
-    base::unserialize(zstdlite::zstd_decompress(bytes))
-  } else {
-    base::unserialize(memDecompress(bytes, type = 'gzip'))
-  }
+  base::unserialize(base::memDecompress(bytes, type = 'gzip'))
 }

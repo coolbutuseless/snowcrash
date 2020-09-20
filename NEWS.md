@@ -1,6 +1,10 @@
+# snowcrash 0.1.3 2020-09-20
+
+* Remove `zstdlite` (that package is not mature enough to be a dependency here)
+
 # snowcrash 0.1.2
 
-* When serializing with `base::serialize()` set `xdr = FALSE` for fast
+* When serializing with `base::serialize()` set `xdr = FALSE` for faster
   performance
 
 # snowcrash 0.1.1

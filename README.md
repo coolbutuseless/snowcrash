@@ -25,9 +25,8 @@ data to pass to a graphics device when using devices based upon
 ## What’s in the box
 
   - `encode_robj_to_bytes()`/`decode_bytes_to_robj` encode an arbitrary
-    R object to bytes using `base::serialize()`. This will also compress
-    the data if [zstdlite](https://github.com/coolbutuseless/zstdlite)
-    is installed.
+    R object to bytes using `base::serialize()` and
+    `base::memCompress()`
   - `encode_robj_to_png()`/`decode_png_to_robj` encode an arbitrary R
     object as a png
   - `encode_robj_to_raster()`/`decode_raster_to_robj` encode as a raster
@@ -42,7 +41,6 @@ You can install from
 
 ``` r
 # install.package('remotes')
-remotes::install_github('coolbutuseless/zstdlite') # suggested. but not mandatory.
 remotes::install_github('coolbutuseless/snowcrash')
 ```
 
@@ -53,9 +51,8 @@ bytes <- encode_robj_to_bytes(c(1, 2, 3))
 bytes
 ```
 
-    #>  [1] 5a 53 54 18 28 b5 2f fd 20 37 a5 01 00 74 02 58 0a 00 00 00 03 00 04 00 02
-    #> [26] 00 03 05 00 00 00 00 05 55 54 46 2d 38 00 00 00 0e 3f f0 00 00 40 08 00 00
-    #> [51] 00 00 00 00 04 04 01 2b 00 65 dc c4 f3 1c 03
+    #>  [1] 78 9c 73 e2 62 66 60 60 60 62 60 61 60 60 65 66 60 05 b2 43 43 dc 74 2d f8
+    #> [26] 80 0c 90 04 04 7c b0 87 32 1c 20 14 87 03 00 5c f8 03 7f
 
 ``` r
 decode_bytes_to_robj(bytes)
@@ -74,26 +71,19 @@ head(ras)
 ```
 
     #>      [,1]        [,2]        [,3]        [,4]        [,5]        [,6]       
-    #> [1,] "#5A550CFF" "#0064BDFF" "#5260D0FF" "#104EE6FF" "#5EE176FF" "#9D371CFF"
-    #> [2,] "#53C640FF" "#364065FF" "#5AD887FF" "#4BE71CFF" "#8C98EBFF" "#9A32C1FF"
-    #> [3,] "#543F18FF" "#1341E5FF" "#68CB46FF" "#C1EDF4FF" "#5E92DDFF" "#6C4279FF"
-    #> [4,] "#18834BFF" "#4B1695FF" "#B801FFFF" "#304003FF" "#96D4E9FF" "#6C28A9FF"
-    #> [5,] "#28392FFF" "#3E0CE2FF" "#A042E3FF" "#62B7B9FF" "#C7939FFF" "#014293FF"
-    #> [6,] "#B54CE0FF" "#207639FF" "#C0F068FF" "#8AC390FF" "#16DA0DFF" "#FD4B12FF"
+    #> [1,] "#78D65AFF" "#A42E4CFF" "#311C63FF" "#4937D7FF" "#CC3DD5FF" "#DF7350FF"
+    #> [2,] "#9C9AD7FF" "#103F9DFF" "#BE1E71FF" "#0A3FCFFF" "#E2EE68FF" "#B5E779FF"
+    #> [3,] "#7DE8CFFF" "#11F6E5FF" "#18F47AFF" "#D4BA54FF" "#E2F676FF" "#BD49F7FF"
+    #> [4,] "#92BB78FF" "#A37C01FF" "#A2D561FF" "#B6B36AFF" "#EC3792FF" "#C20228FF"
+    #> [5,] "#3D72AAFF" "#8376CCFF" "#2EE8AAFF" "#4061F0FF" "#AC015EFF" "#95F6C7FF"
+    #> [6,] "#4CF75CFF" "#2EFFCFFF" "#0EDB0AFF" "#64CF5CFF" "#B3586BFF" "#C45CC0FF"
     #>      [,7]        [,8]        [,9]        [,10]       [,11]       [,12]      
-    #> [1,] "#24FF9CFF" "#32FEC7FF" "#B8A9D0FF" "#7F886CFF" "#FB2A00FF" "#904700FF"
-    #> [2,] "#3CEEF6FF" "#598FA3FF" "#306627FF" "#C7187CFF" "#7F1600FF" "#508100FF"
-    #> [3,] "#36DBAEFF" "#D465DBFF" "#688F62FF" "#FF4D3FFF" "#4E0100FF" "#906D00FF"
-    #> [4,] "#001585FF" "#23DFA5FF" "#E1C85BFF" "#EFA33BFF" "#7BD600FF" "#3F1100FF"
-    #> [5,] "#40FF8EFF" "#8A10A0FF" "#C276E1FF" "#BFBBE6FF" "#F62C00FF" "#131500FF"
-    #> [6,] "#00B355FF" "#F6A58AFF" "#A1C042FF" "#84B1DEFF" "#EDA500FF" "#2E5400FF"
-    #>      [,13]      
-    #> [1,] "#7DA000FF"
-    #> [2,] "#DCC800FF"
-    #> [3,] "#922500FF"
-    #> [4,] "#A8F000FF"
-    #> [5,] "#340200FF"
-    #> [6,] "#242900FF"
+    #> [1,] "#7FA23AFF" "#09C0D8FF" "#1817DAFF" "#B17F2DFF" "#8C916DFF" "#164393FF"
+    #> [2,] "#EFAF8AFF" "#05055DFF" "#167F2AFF" "#0C10BBFF" "#F97329FF" "#7DD855FF"
+    #> [3,] "#F595B0FF" "#493B6DFF" "#717CA3FF" "#55A2FFFF" "#0C3D1AFF" "#15A003FF"
+    #> [4,] "#787248FF" "#084E35FF" "#FCADD3FF" "#3B8F09FF" "#881E35FF" "#1075BBFF"
+    #> [5,] "#EBD62DFF" "#F3CF8DFF" "#858903FF" "#F2FF5CFF" "#BEC0EDFF" "#F5D5FDFF"
+    #> [6,] "#D143B3FF" "#837A86FF" "#093ABAFF" "#905F38FF" "#39F996FF" "#C44CC5FF"
 
 ``` r
 plot(ras, interpolate = FALSE)
@@ -141,7 +131,7 @@ decode_rasterGrob_to_robj(raster_grob)
     #>     structure(list(lengths = diff(c(0L, i)), values = x[i]), 
     #>         class = "rle")
     #> }
-    #> <bytecode: 0x7fc64d8cd350>
+    #> <bytecode: 0x7fc977f3eb98>
     #> <environment: namespace:base>
 
 ## Encoding a `ggplot2` Object as a PNG image

@@ -1,7 +1,7 @@
 Package: snowcrash
 Type: Package
 Title: A Graphical Object for Carrying Arbitrary Data
-Version: 0.1.2
+Version: 0.1.3
 Author: mikefc
 Maintainer: mikefc <mikefc@coolbutuseless.com>
 Description: A graphical object for carrying arbitrary data through a graphics device unchanged.
@@ -12,7 +12,4 @@ RoxygenNote: 7.1.1
 Imports:
     png
 Suggests:
-    zstdlite,
     testthat
-Remotes:
-    coolbutuseless/zstdlite

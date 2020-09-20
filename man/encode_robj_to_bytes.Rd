@@ -13,14 +13,11 @@ encode_robj_to_bytes(robj)
 Vector of raw bytes
 }
 \description{
-If \code{zstdlite} is installed, then the serialized representation is
-compressed using \code{zstd} compression.
-}
-\details{
 The representation is serialized with \code{serialize(..., xdr = FALSE)},
 so if the endian of the compression and decompression machines is not the
 same, you are likely to experience sadness.
-
+}
+\details{
 Setting \code{xdr = FALSE} for serialization has speed benefits - from the
 \code{serialize()} help page: "As almost all systems in current use are
 little-endian, xdr = FALSE can be used to avoid byte-shuffling at both ends

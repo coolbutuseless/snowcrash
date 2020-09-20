@@ -77,9 +77,8 @@ device when using devices based upon [devout](https://github.com/coolbutuseless/
 
 ## What's in the box
 
-* `encode_robj_to_bytes()`/`decode_bytes_to_robj` encode an arbitrary R object to bytes using `base::serialize()`.
-  This will also compress the data if [zstdlite](https://github.com/coolbutuseless/zstdlite)
-  is installed.
+* `encode_robj_to_bytes()`/`decode_bytes_to_robj` encode an arbitrary R object 
+  to bytes using `base::serialize()` and `base::memCompress()`
 * `encode_robj_to_png()`/`decode_png_to_robj` encode an arbitrary R object as a png
 * `encode_robj_to_raster()`/`decode_raster_to_robj` encode as a raster image
 * `encode_robj_to_rasterGrob()`/`decode_rasterGrob_to_robj()` encode as a `grid::rasterGrob()` object
@@ -90,7 +89,6 @@ You can install from [GitHub](https://github.com/coolbutuseless/snowcrash) with:
 
 ``` r
 # install.package('remotes')
-remotes::install_github('coolbutuseless/zstdlite') # suggested. but not mandatory.
 remotes::install_github('coolbutuseless/snowcrash')
 ```
 
