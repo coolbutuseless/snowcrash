@@ -13,9 +13,5 @@ decode_bytes_to_robj(bytes)
 the decoded R object if one is found, otherwise \code{NULL}
 }
 \description{
-If serialized bytes were compressed using \code{zstd}, the uncompress first
-before unserializing.
-}
-\details{
 If no object is detected in the bytes, then \code{NULL} is returned
 }

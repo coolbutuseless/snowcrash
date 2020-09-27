@@ -28,9 +28,6 @@ encode_robj_to_bytes <- function(robj) {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Unserialize bytes into an R object
 #'
-#' If serialized bytes were compressed using \code{zstd}, the uncompress first
-#' before unserializing.
-#'
 #' If no object is detected in the bytes, then \code{NULL} is returned
 #'
 #' @param bytes vector of raw values
@@ -40,5 +37,23 @@ encode_robj_to_bytes <- function(robj) {
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 decode_bytes_to_robj <- function(bytes) {
-  base::unserialize(base::memDecompress(bytes, type = 'gzip'))
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # serialized bytes that have been memcompressed() should always(?) start
+  # with 0x78, 0x9c.  If that's not the case, return NULL
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (bytes[1] != 0x78 || bytes[2] != 0x9c) {
+    return(NULL)
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Increase paranoia about bytes that can't be decoded
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  tryCatch(
+    base::unserialize(base::memDecompress(bytes, type = 'gzip')),
+    error = function(cond) {
+      warning("decode_bytes_to_robj(): Couldn't decode bytes")
+      NULL
+    }
+  )
 }

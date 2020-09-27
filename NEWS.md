@@ -1,3 +1,7 @@
+# snowcrash 0.1.4 2020-09-27
+
+* Increase error checking when attempting to decode a raster.
+
 # snowcrash 0.1.3 2020-09-20
 
 * Remove `zstdlite` (that package is not mature enough to be a dependency here)

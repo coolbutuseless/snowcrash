@@ -131,7 +131,7 @@ decode_rasterGrob_to_robj(raster_grob)
     #>     structure(list(lengths = diff(c(0L, i)), values = x[i]), 
     #>         class = "rle")
     #> }
-    #> <bytecode: 0x7fc977f3eb98>
+    #> <bytecode: 0x7ffbe69c1c80>
     #> <environment: namespace:base>
 
 ## Encoding a `ggplot2` Object as a PNG image

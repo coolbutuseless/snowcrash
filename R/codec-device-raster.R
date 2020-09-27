@@ -51,6 +51,10 @@ decode_device_raster_to_bytes <- function(device_raster) {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 decode_device_raster_to_robj <- function(device_raster) {
   bytes <- decode_device_raster_to_bytes(device_raster)
+  if (is.null(bytes)) {
+    return(NULL)
+  }
+
   decode_bytes_to_robj(bytes)
 }
 
